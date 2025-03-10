@@ -1,5 +1,9 @@
+'''
+This version of the algorithm will only take the leftmost l li and the rightmost ri
+'''
 from typing import List, Tuple
 txt = "aabaabcaxaabaabcy"
+
 def gusfieldZAlgo(pat: str) -> List[Tuple[int,int]]:
 
     #Zi values 
@@ -30,18 +34,18 @@ def gusfieldZAlgo(pat: str) -> List[Tuple[int,int]]:
             ziValues[k] = q-k
             if ziValues[k] > 0:
                 l, r = k, q-1 
-                lrValues[k] = (l, r)
+
 
         elif k<= r: 
             
             zIndex = k - l  
             rhsEquality = r - k + 1
-
+            
             if ziValues[zIndex] < rhsEquality: 
                 ziValues[k] = ziValues[zIndex]
-                lrValues[k] = (l,r)
 
 
+            # Case 2a: Where the z box fits within the current z box
             elif ziValues[zIndex] >= rhsEquality: 
 
                 q = r + 1 
@@ -49,14 +53,15 @@ def gusfieldZAlgo(pat: str) -> List[Tuple[int,int]]:
                 while q != len(pat) and pat[q-k] == pat[q]:
                     q += 1
 
-                l,r = k, q-1
+                if r != q-1: 
+                    l = k 
+
+                r = q-1
                 ziValues[k] = q - k 
-                lrValues[k] = (l, r)
-
-
-
-gusfieldZAlgo(txt)
         
+        # Updates the Zbox - those that have zi that are zero will point a prev zbox while those inside a z box are pointing to the leftmost and rightmost part
+        lrValues[k] = (l,r)
 
+    return (ziValues, lrValues)
 
-
+print(gusfieldZAlgo(txt))
