@@ -1,6 +1,5 @@
 from typing import List, Tuple
-txt = "abcdabc"
-
+txt = "aabaabcaxaabaabcy"
 def gusfieldZAlgo(pat: str) -> List[Tuple[int,int]]:
 
     #Zi values 
@@ -9,22 +8,18 @@ def gusfieldZAlgo(pat: str) -> List[Tuple[int,int]]:
     lrValues = [(0,0)] * len(pat)
 
     # Base Case: 
-    for i in range(len(pat)-1):
-
-        z1 = i 
-        z2 = i + 1 
-
-        if pat[z1] != pat[z2]:
-            break 
-    
-    ziValues[1] = i  
-    if ziValues[1] != 0: 
-        lrValues[1] = (1, ziValues[1])
+    i = 0
+    while i+1 < len(pat) and pat[i] == pat[i+1]:
+        i += 1
+    ziValues[1] = i
+    if i > 0:
+        l, r = 1, i 
+        lrValues[1] = (1, i)
+    else: 
+        l, r = 0, 0  
 
     # Case 1 and Case 2: 
-    for k in range(1, len(pat)): 
-        
-        l, r = lrValues[k-1]
+    for k in range(2, len(pat)): 
         
         # Case 1 => completely outside the previous Z box 
         if k > r: 
@@ -33,17 +28,32 @@ def gusfieldZAlgo(pat: str) -> List[Tuple[int,int]]:
                 q += 1
             
             ziValues[k] = q-k
-            if ziValues[k] > 0: 
-                lrValues = (k, q-1)
-
+            if ziValues[k] > 0:
+                l, r = k, q-1 
+                lrValues[k] = (l, r)
 
         elif k<= r: 
-            pass 
+            
+            zIndex = k - l  
+            rhsEquality = r - k + 1
+
+            if ziValues[zIndex] < rhsEquality: 
+                ziValues[k] = ziValues[zIndex]
+                lrValues[k] = (l,r)
 
 
+            elif ziValues[zIndex] >= rhsEquality: 
 
-    print(ziValues)
-    print(lrValues)
+                q = r + 1 
+
+                while q != len(pat) and pat[q-k] == pat[q]:
+                    q += 1
+
+                l,r = k, q-1
+                ziValues[k] = q - k 
+                lrValues[k] = (l, r)
+
+
 
 gusfieldZAlgo(txt)
         
