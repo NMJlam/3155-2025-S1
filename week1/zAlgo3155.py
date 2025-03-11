@@ -63,5 +63,3 @@ def gusfieldZAlgo(pat: str) -> List[Tuple[int,int]]:
         lrValues[k] = (l,r)
 
     return (ziValues, lrValues)
-
-print(gusfieldZAlgo(txt))

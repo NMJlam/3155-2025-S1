@@ -1,8 +1,9 @@
+from typing import List, Tuple
 
 txt = "zad123zaabczad123"
 pat = "zad"
 
-def naive_pattern_matching(txt: str, pat: str) -> list: 
+def naive_pattern_matching(txt: str, pat: str) -> List[int]: 
     """
     Function: slides the pattern for every single letter to find a match and outputs a list of 
     indices which the pattern fully matches
@@ -25,5 +26,5 @@ def naive_pattern_matching(txt: str, pat: str) -> list:
 
     return output 
 
-print(naive_pattern_matching(txt , pat))
+
 
