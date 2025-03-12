@@ -12,19 +12,19 @@ def naive_pattern_matching(txt: str, pat: str) -> List[int]:
     Given that for every single letter we compare a lenght of m the complixity is O(n * m)
     
     """
-    txt_len = len(txt) - 1
-    pat_len = len(pat) - 1
+    txt_len = len(txt)  
+    pat_len = len(pat) 
 
     output = []
 
     for i in range(txt_len - pat_len):
             
-            if pat != txt[i:i + pat_len + 1]:
+            if pat != txt[i:i + pat_len]:
                 continue
 
             output.append(i)
 
     return output 
 
-
+print(naive_pattern_matching(txt, pat))
 

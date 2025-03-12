@@ -1,5 +1,5 @@
 '''
-This version of the algorithm will only take the leftmost l li and the rightmost ri
+This version of the algorithm will only take the leftmost li and the rightmost ri
 '''
 from typing import List, Tuple
 txt = "aabaabcaxaabaabcy"
@@ -8,7 +8,7 @@ def gusfieldZAlgo(pat: str) -> List[Tuple[int,int]]:
 
     #Zi values 
     ziValues = [0] * len(pat)
-    #L & R values 
+    #li & ri values 
     lrValues = [(0,0)] * len(pat)
 
     # Base Case: 
@@ -35,17 +35,19 @@ def gusfieldZAlgo(pat: str) -> List[Tuple[int,int]]:
             if ziValues[k] > 0:
                 l, r = k, q-1 
 
-
+			
+		# Notice how the l is not updated unless r != q-1 - this means that our z box at k extends FURTHER than the zbox at k-1, so the right most value is now at the mismatch (q). However, in the case that r == q-1 it means that rk is aligned with r(k-1) so the leftmost value is still l(k-1)   
         elif k<= r: 
             
             zIndex = k - l  
             rhsEquality = r - k + 1
             
+	        # Case 2a: Where the z box fits within the current z  
             if ziValues[zIndex] < rhsEquality: 
                 ziValues[k] = ziValues[zIndex]
 
 
-            # Case 2a: Where the z box fits within the current z box
+            # Case 2b: Where the z box extends beyond the current z 
             elif ziValues[zIndex] >= rhsEquality: 
 
                 q = r + 1 
@@ -55,7 +57,6 @@ def gusfieldZAlgo(pat: str) -> List[Tuple[int,int]]:
 
                 if r != q-1: 
                     l = k 
-
                 r = q-1
                 ziValues[k] = q - k 
         
